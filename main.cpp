@@ -51,6 +51,7 @@
 #include <pcl/common/io.h>
 #include <boost/filesystem.hpp>
 #include <pcl/io/image_grabber.h>
+#include <pcl/visualization/cloud_viewer.h>
 
 using namespace std;
 using namespace boost::filesystem;
@@ -128,6 +129,14 @@ int main (int argc,char *argv[])
         signal_received = false;
     }
     clog << "Got " << grabber.size() << " frames from grabber" << endl;
+
+
+    // write the clouds
+    // FIXME: check float to ASCII conversion for imprecision
+    for (vector<CloudT::ConstPtr>::iterator itr=fakenect_clouds.begin(); itr != fakenect_clouds.end(); itr++) {
+            string timestamp=to_string((*itr)->header.stamp);
+            pcl::io::savePCDFileASCII(string("frame_")+timestamp+string(".pcd"),**itr);
+    }
 
     return 0;
 }
