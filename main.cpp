@@ -111,6 +111,7 @@ int main (int argc,char *argv[])
             fxn = boost::bind (cloud_callback, &signal_received, &cloud_buffer, _1);
     grabber.registerCallback (fxn);
     //grabber.setCameraIntrinsics (525., 525., 320., 240.); // Setting old intrinsics which were used to generate these tests
+    grabber.setDepthImageUnits(-0.001);
     grabber.start ();
     for (size_t i = 0; i < grabber.size (); i++)
     {
